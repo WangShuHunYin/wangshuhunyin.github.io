@@ -88,18 +88,14 @@ $(function () {
         "魏嘉诚",
         "徐高栋",
         "任国杰",
-        // "89",
-        // "90"
+        "89",
+        "90"
     ];
     var glasses = [];
-    var tempStuArr = [];
 
-    function initPage(num) {
+    function initPageAndAddListenter(num) {
         $("body").append("<div id='content' class='style_1'></div>");
         $("#content").append("<div id='action'><font>排位</font></div>");
-        // $("#content").append(
-        //     "<div id='teacher'><div class='stu'></div><div class='teacher'>讲师</div><div class='stu'></div></div>"
-        // );
         var row =
             "<div class='row'><div class='stu_con'><div class='stu'></div><div class='stu'></div></div><div class='stu_con'><div class='stu'></div><div class='stu'></div></div><div class='stu_con'><div class='stu'></div><div class='stu'></div></div><div class='stu_con'><div class='stu'></div><div class='stu'></div></div><div class='stu_con'><div class='stu'></div><div class='stu'></div></div></div>";
         for (var i = 0; i < Math.ceil(num / 10); i++) {
@@ -116,7 +112,18 @@ $(function () {
             $("#content").removeClass("style_1").addClass("style_2");
         });
 
+        //Add ActionBtn EventListenter
         $("#action").live("click", function () {
+            //Clear All Contents Text && grayStyle
+            function clearAll() {
+                for (var i in $(".stu")) {
+                    $(".stu").eq(i).removeClass("stu_gray").text("");
+                }
+            }
+            clearAll();
+            console.info("clear content text && style");
+            var tempStuArr = [];
+            //deepCopy && aviod the same arr pointer
             function deepCopyArr(arr) {
                 tempStuArr.length = 0;
                 for (var i in arr) {
@@ -124,64 +131,88 @@ $(function () {
                 }
             }
             deepCopyArr(student);
+            //ranSub ranDes && aviod grayContent && limit myopia interval
+            function ranSD(grayList,interval) {
+                while (true) {
+                    var randomSub = Math.floor(Math.random() * student.length);
+                    var randomDesk = Math.floor(Math.random() * $(".stu").length);
+                    if (tempStuArr[randomSub] != 0 && $(".stu").eq(randomDesk).text() == "" && randomDesk != grayList.con_1 && randomDesk != grayList.con_2) {
+                        return {
+                            ranSub: randomSub,
+                            ranDes: randomDesk
+                        };
+                        break;
+                    }
+                }
+            }
+            //Judge Arr Is Null?
+            function ArrIsNull(arr) {
+                var TF = true;
+                for (var i in arr) {
+                    if (arr[i] != 0) {
+                        TF = false;
+                        break;
+                    }
+                }
+                return TF;
+            }
+            //Set grayContent To Gray
+            function setGray(grayList) {
+                if (grayList.con_1 != null) {
+                    $(".stu").eq(grayList.con_1).addClass("stu_gray");
+                }
+                if (grayList.con_2 != null) {
+                    $(".stu").eq(grayList.con_2).addClass("stu_gray");
+                }
+            }
+            //Set ranDes.ranSub
+            function setChooseContent(arr) {
+                setGray(grayContent);
+                var begin = setInterval(function () {
+                        // console.info("2 set");
+                        if (ArrIsNull(arr)) {
+                            console.info("clear Interval");
+                            clearInterval(begin);
+                        } else {
+                            var ran = ranSD(grayContent);
+                            console.info(ran);
+                            $(".stu").eq(ran.ranDes).text(arr[ran.ranSub]);
+                            arr[ran.ranSub] = 0;
+                        }
+                    },
+                    100);
+            }
             switch (90 - num) {
                 case 1:
-                    for (var i = 0; i < $(".stu").length; i++) {
-                        if (i == 0) {
-                            continue;
-                        } else {
-                            var randomSub = Math.floor(Math.random() * student.length);
-                            if (tempStuArr[randomSub] == 0) {
-                                --i;
-                            } else {
-                                $(".stu").eq(i).text(tempStuArr[randomSub]);
-                                // console.info(i + " " + tempStuArr[randomSub] + " " + randomSub);
-                                tempStuArr[randomSub] = 0;
-                            }
-                        }
-                    }
+                    var grayContent = {
+                        con_1: null,
+                        con_2: 89
+                    };
+                    setChooseContent(tempStuArr);
                     break;
                 case 2:
-                    for (var i = 0; i < $(".stu").length; i++) {
-                        if (i == 0 || i == 9) {
-                            continue;
-                        } else {
-                            var randomSub = Math.floor(Math.random() * student.length);
-                            if (tempStuArr[randomSub] == 0) {
-                                --i;
-                            } else {
-                                $(".stu").eq(i).text(tempStuArr[randomSub]);
-                                // console.info(i + " " + tempStuArr[randomSub] + " " + randomSub);
-                                tempStuArr[randomSub] = 0;
-                            }
-                        }
-                    }
+                    // console.info("2");
+                    var grayContent = {
+                        con_1: 80,
+                        con_2: 89
+                    };
+                    setChooseContent(tempStuArr);
                     break;
                 default:
-                    for (var i = 0; i < $(".stu").length; i++) {
-                        var randomSub = Math.floor(Math.random() * student.length);
-                        if (tempStuArr[randomSub] == 0) {
-                            --i;
-                        } else {
-                            $(".stu").eq(i).text(tempStuArr[randomSub]);
-                            // console.info(i + " " + tempStuArr[randomSub] + " " + randomSub);
-                            tempStuArr[randomSub] = 0;
-                        }
-                    }
+                    // console.info("default");
+                    var grayContent = {
+                        con_1: null,
+                        con_2: null
+                    };
+                    setChooseContent(tempStuArr);
                     break;
-            }
-            //灰色
-            for(var i in $(".stu")){
-                if($(".stu").eq(i).text() == ""){
-                    $(".stu").eq(i).css("backgroundColor","gray");
-                }
             }
         });
     }
-    //初始化页面
-    initPage(student.length);
+    //initPage && addListenter
+    initPageAndAddListenter(student.length);
 
-    //气球特效
+    //bubbles Effect
     var arrColor = ["purple", "#279DE1", "#26CDCB", "#E7F6F6", "#8EE4E8", "#27B8E7", "#FFCFFD", "#BDEDFF", "#FFE8EB", "#64AA67", "#90D793", "#678652"];
     var counter = 0;
     var randomBack;

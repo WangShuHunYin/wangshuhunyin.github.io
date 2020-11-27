@@ -112,14 +112,15 @@ div {
     border: 1px solid white;
     color: transparent;
     transition: all .7s linear;
+    transition: 1s;
 }
 
 /* 灰色不可选 */
-.stu_shadow {
+.stu_gray {
     background-color: gray;
 }
 
-.stu_shadow:hover {
+.stu_gray:hover {
     box-shadow: none;
 }
 
@@ -128,21 +129,17 @@ div {
     color: white;
 }
 
-/* #teacher {
-    display: flex;
-    margin: 30px auto;
-    padding: 10px;
-    width: 30%;
-    height: 50px;
-    align-items: center;
+.stu:hover::after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    width: 0px;
+    height: 35px;
+    top: -35px;
+    background: -webkit-linear-gradient(45deg, skyblue, pink);
+    animation: action .6s linear;
 }
-
-#teacher>div:nth-of-type(2) {
-    background-color: blue;
-    line-height: 50px;
-    height: 50px;
-    flex: 2;
-} */
 
 #action {
     width: 120px;
