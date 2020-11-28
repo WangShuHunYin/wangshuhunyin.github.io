@@ -28,7 +28,7 @@ body {
 }
 
 div {
-    /* flex-wrap: nowrap; */
+    flex-wrap: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -97,9 +97,6 @@ div {
 .stu_con {
     flex: 1;
     padding: 10px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 .stu:hover,
@@ -116,9 +113,6 @@ div {
     color: transparent;
     transition: all .7s linear;
     transition: 1s;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 /* 灰色不可选 */

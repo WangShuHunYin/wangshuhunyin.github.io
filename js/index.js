@@ -68,8 +68,8 @@ $(function () {
         "李晓彤",
         "李芸露",
         "郭进喜",
-        "王金铭",
-        "晋申奥",
+        // "王金铭",
+        // "晋申奥",
         // "刘卓",
         // "李广辉",
         // "唐光强",
@@ -88,11 +88,15 @@ $(function () {
         // "魏嘉诚",
         // "徐高栋",
         // "任国杰",
-        // "89",
-        // "90"
+        //test
+        // "88",
+        // "89"
+        //Length Max 90 Min 80
     ];
-    //20个
+    //固定20个
     var glasses = [
+        "王金铭",
+        "晋申奥",
         "刘卓",
         "李广辉",
         "唐光强",
@@ -110,9 +114,7 @@ $(function () {
         "魏子健",
         "魏嘉诚",
         "徐高栋",
-        "任国杰",
-        "89",
-        "90"
+        "任国杰"
     ];
 
     function initPageAndAddListenter(num) {
@@ -141,11 +143,17 @@ $(function () {
                 for (var i in $(".stu")) {
                     $(".stu").eq(i).removeClass("stu_gray").text("");
                 }
+                console.info("clear content text && style");
             }
             clearAll();
-            console.info("clear content text && style");
             var tempStuArr = [];
             var tempGlaStuArr = [];
+            //Set grayContent To Gray
+            function setGray(grayList) {
+                for (var i in grayList) {
+                    $(".stu").eq(grayList[i].value).addClass("stu_gray");
+                }
+            }
             //deepCopy && aviod the same arr pointer
             function deepCopyArr(arr_par, arr_son) {
                 arr_son.length = 0;
@@ -156,6 +164,28 @@ $(function () {
             deepCopyArr(student, tempStuArr);
             if (!ArrIsNull(glasses)) {
                 deepCopyArr(glasses, tempGlaStuArr);
+            }
+            //Judge Arr Is Null?Null Return true
+            function ArrIsNull(arr) {
+                var TF = true;
+                for (var i in arr) {
+                    if (arr[i] != 0) {
+                        TF = false;
+                        break;
+                    }
+                }
+                return TF;
+            }
+            //Match List=ranSub?continue:break
+            function matchList(grayList, ranSub) {
+                var TF = true;
+                for (var i in grayList) {
+                    if (grayList[i].value == ranSub) {
+                        TF = false;
+                        break;
+                    }
+                }
+                return TF;
             }
             //ranSub ranDes && aviod grayContent && limit myopia interval
             function ranSD(grayList, interval) {
@@ -170,33 +200,13 @@ $(function () {
                             };
                             break;
                         }
-                    } else if (tempStuArr[randomSub] != 0 && $(".stu").eq(randomDesk).text() == "" && randomDesk != grayList.con_1 && randomDesk != grayList.con_2) {
+                    } else if (tempStuArr[randomSub] != 0 && $(".stu").eq(randomDesk).text() == "" && matchList(grayList, randomDesk)) {
                         return {
                             ranSub: randomSub,
                             ranDes: randomDesk
                         };
                         break;
                     }
-                }
-            }
-            //Judge Arr Is Null?Null Return true
-            function ArrIsNull(arr) {
-                var TF = true;
-                for (var i in arr) {
-                    if (arr[i] != 0) {
-                        TF = false;
-                        break;
-                    }
-                }
-                return TF;
-            }
-            //Set grayContent To Gray
-            function setGray(grayList) {
-                if (grayList.con_1 != null) {
-                    $(".stu").eq(grayList.con_1).addClass("stu_gray");
-                }
-                if (grayList.con_2 != null) {
-                    $(".stu").eq(grayList.con_2).addClass("stu_gray");
                 }
             }
             //Set ranDes.ranSub
@@ -226,32 +236,127 @@ $(function () {
                     }
                 }, 100);
             }
-            switch (90 - num) {
-                case 1:
-                    // console.info("1");
-                    var grayContent = {
-                        con_1: null,
-                        con_2: 89
-                    };
-                    setChooseContent(tempStuArr, tempGlaStuArr);
-                    break;
-                case 2:
-                    // console.info("2");
-                    var grayContent = {
-                        con_1: 80,
-                        con_2: 89
-                    };
-                    setChooseContent(tempStuArr, tempGlaStuArr);
-                    break;
-                default:
-                    // console.info("default");
-                    var grayContent = {
-                        con_1: null,
-                        con_2: null
-                    };
-                    setChooseContent(tempStuArr, tempGlaStuArr);
-                    break;
+            //According Sum(Student,Glasess) To Judge GrayContentCounterNum && Numerical fixed(Max 90,Min 80)!important
+            function getGrayCon(counterGrayCon) {
+                var List = (counterGrayCon == 0) ? [{
+
+                }] : (counterGrayCon == 1) ? [{
+                    value: 89
+                }] : (counterGrayCon == 2) ? [{
+                    value: 80
+                }, {
+                    value: 89
+                }] : (counterGrayCon == 3) ? [{
+                    value: 87
+                }, {
+                    value: 88
+                }, {
+                    value: 89
+                }] : (counterGrayCon == 4) ? [{
+                    value: 80
+                }, {
+                    value: 81
+                }, {
+                    value: 88
+                }, {
+                    value: 89
+                }] : (counterGrayCon == 5) ? [{
+                    value: 85
+                }, {
+                    value: 86
+                }, {
+                    value: 87
+                }, {
+                    value: 88
+                }, {
+                    value: 89
+                }] : (counterGrayCon == 6) ? [{
+                    value: 80
+                }, {
+                    value: 81
+                }, {
+                    value: 82
+                }, {
+                    value: 87
+                }, {
+                    value: 88
+                }, {
+                    value: 89
+                }] : (counterGrayCon == 7) ? [{
+                    value: 83
+                }, {
+                    value: 84
+                }, {
+                    value: 85
+                }, {
+                    value: 86
+                }, {
+                    value: 87
+                }, {
+                    value: 88
+                }, {
+                    value: 89
+                }] : (counterGrayCon == 8) ? [{
+                    value: 80
+                }, {
+                    value: 81
+                }, {
+                    value: 82
+                }, {
+                    value: 83
+                }, {
+                    value: 86
+                }, {
+                    value: 87
+                }, {
+                    value: 88
+                }, {
+                    value: 89
+                }] : (counterGrayCon == 9) ? [{
+                    value: 81
+                }, {
+                    value: 82
+                }, {
+                    value: 83
+                }, {
+                    value: 84
+                }, {
+                    value: 85
+                }, {
+                    value: 86
+                }, {
+                    value: 87
+                }, {
+                    value: 88
+                }, {
+                    value: 89
+                }] : [{
+                    value: 80
+                }, {
+                    value: 81
+                }, {
+                    value: 82
+                }, {
+                    value: 83
+                }, {
+                    value: 84
+                }, {
+                    value: 85
+                }, {
+                    value: 86
+                }, {
+                    value: 87
+                }, {
+                    value: 88
+                }, {
+                    value: 89
+                }];
+                console.info(List);
+                return List;
             }
+            console.info(student.length + glasses.length);
+            var grayContent = getGrayCon(90 - num);
+            setChooseContent(tempStuArr, tempGlaStuArr);
         });
     }
     //initPage && addListenter
